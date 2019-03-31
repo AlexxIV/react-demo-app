@@ -1,91 +1,86 @@
-import React                       from 'react';
-import {Form, FormControl, Button} from "react-bootstrap";
-import userActions                 from "../../utilities/user/user-actions";
+import React, { useState }           from 'react';
+import { Form, FormControl, Button } from 'react-bootstrap';
+import userActions                   from '../../utilities/user/user-actions';
 
-export default class Login extends React.Component {
-    constructor(props) {
-        super(props);
+export const Login = (props) => {
+    const [formData, setFormData] = useState({
+        username: '',
+        password: '',
+    });
 
-        this.state = {
-            username: '',
-            password: '',
-            submitDisabled: true,
-            globalError: false,
-            globalErrorContent: ''
-        };
-    }
+    const [error, setError] = useState({
+        globalError: false,
+        globalErrorContent: '',
+    });
 
-    availableForSubmit = () => {
-         if (this.state.username.length > 0 && this.state.password.length > 0) {
-             this.setState({
-                 submitDisabled: false
-             })
-         }
+    const { username, password } = formData;
+
+    const formPopulated = () => {
+        return formData.username.length > 0 && formData.password.length > 0;
     };
 
-    handleOnChange = (e) => {
-        const {name, value} = e.target;
-        this.setState({
-            [name]: value,
-            globalError: false,
-            globalErrorContent: ''
-        });
+    const updateFormData = event => setFormData({
+        ...formData,
+        [event.target.name]: event.target.value
+    });
 
-        this.availableForSubmit();
-    };
-
-    handleOnSubmit = (e) => {
-        e.preventDefault();
-        let formData = (({username, password}) => ({username, password}))(this.state);
+    const submitFormData = event => {
+        event.preventDefault();
+        console.log(props);
         let loggedUser = userActions.handleLogin(formData);
 
         if (loggedUser) {
-            this.props.updateUserState(loggedUser);
-            this.props.history.push({
+            props.updateUserState(loggedUser);
+            props.history.push({
                 pathname: '/dashboard',
-                state: 'Login successful!'
+                state: 'Login Successful!',
             });
-
         } else {
-            this.setState({
+            setError({
                 globalError: true,
-                globalErrorContent: 'Invalid credentials',
+                globalErrorContent: 'Invalid credentials!',
+            });
+            setFormData({
                 username: '',
                 password: '',
-            })
+            });
         }
+
     };
 
-    render() {
-        return (
-            <div className="col-sm-6 col-lg-4 m-auto">
-                <h2 className="mt-5 mb-5 text-center">Login</h2>
-                <Form onSubmit={e => this.handleOnSubmit(e)}>
-                    <Form.Group controlId="formBasicUsername">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control isInvalid={this.state.globalError}
-                                      type="username"
-                                      placeholder="Enter username"
-                                      name="username"
-                                      value={this.state.username}
-                                      onChange={e => this.handleOnChange(e)}/>
-                    </Form.Group>
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control isInvalid={this.state.globalError}
-                                      type="password"
-                                      placeholder="Password"
-                                      name="password"
-                                      value={this.state.password}
-                                      onChange={e => this.handleOnChange(e)}/>
-                        <FormControl.Feedback type='invalid'>{this.state.globalErrorContent}</FormControl.Feedback>
-                    </Form.Group>
-                    <Button disabled={this.state.submitDisabled} variant="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-            </div>
-
-        )
-    }
+    return (
+        <div className="col-sm-6 col-lg-4 m-auto">
+            <h2 className="mt-5 mb-5 text-center">Login</h2>
+            <Form onSubmit={e => submitFormData(e)}>
+                <Form.Group controlId="formBasicUsername">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control
+                        isInvalid={error.globalError}
+                        type="text"
+                        value={username}
+                        onChange={e => updateFormData(e)}
+                        placeholder="Enter username"
+                        name="username"
+                    />
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        isInvalid={error.globalError}
+                        type="password"
+                        value={password}
+                        onChange={e => updateFormData(e)}
+                        placeholder="Password"
+                        name="password"
+                    />
+                    <FormControl.Feedback type='invalid'>
+                        {error.globalErrorContent}
+                    </FormControl.Feedback>
+                </Form.Group>
+                <Button disabled={!formPopulated()} variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form>
+        </div>
+    )
 }

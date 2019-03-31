@@ -38,7 +38,7 @@ export const Dashboard = ({user}) => {
                                 </td>
                             </tr>
                         ))
-                    : <h3 className='text-center'>No other users found!</h3>}
+                    :<tr><h3 className='text-center'>No other users found!</h3></tr>}
                 </tbody>
             </Table>
         </div>

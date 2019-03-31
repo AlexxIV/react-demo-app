@@ -1,8 +1,8 @@
 import React, {Component}           from 'react';
 import {Redirect, Route, Switch}    from "react-router-dom";
 
-import Login                        from "./components/user/Login";
-import Register                     from "./components/user/Register";
+import {Login}                       from "./components/user/Login";
+import {Register2}                     from "./components/user/Register2";
 
 import {Header}                     from "./components/common/Header";
 import {Footer}                     from "./components/common/Footer";
@@ -64,7 +64,7 @@ class App extends Component {
                 <Header {...this.state} />
                 <div className="row">
                     <Switch>
-                        <PublicRoute path='/register' auth={this.state.loggedIn} component={Register}/>
+                        <PublicRoute path='/register' auth={this.state.loggedIn} component={Register2}/>
                         <PublicRoute path='/login' auth={this.state.loggedIn} component={Login}
                                      updateUserState={this.updateUserState}/>
 
