@@ -1,12 +1,11 @@
-import React from 'react';
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
+import React         from 'react';
+import {Link}        from "react-router-dom";
+import {Navbar, Nav} from "react-bootstrap";
+import {UserBar}     from "./UserBar";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {UserBar} from "./UserBar";
-import {Link} from "react-router-dom";
 
-export const Header = props => (
+export const Header = (props) => (
     <Navbar bg="light" expand="lg">
         <Link to="/">
             <Navbar.Brand>
@@ -16,7 +15,7 @@ export const Header = props => (
         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-                <UserBar loggedIn={false}/>
+                <UserBar loggedIn={props.loggedIn} name={props.user.name}/>
             </Nav>
         </Navbar.Collapse>
     </Navbar>
