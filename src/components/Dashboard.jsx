@@ -1,7 +1,8 @@
 import React, {useReducer} from 'react';
 import {Table} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import userActions from '../utilities/user/user-actions';
+
+import '../assets/styles/dashboard.scss';
 
 export const Dashboard = ({user}) => {
 
@@ -33,8 +34,14 @@ export const Dashboard = ({user}) => {
                                 <td className='text-center'>{index + 1}</td>
                                 <td>{user.name}</td>
                                 <td>{user.username}</td>
+                                {/*<td className='text-center'>*/}
+                                    {/*<FontAwesomeIcon icon="trash" onClick={() => dispatch({index})} className='cursor-pointer'/>*/}
+                                {/*</td>*/}
                                 <td className='text-center'>
-                                    <FontAwesomeIcon icon="trash" onClick={() => dispatch({index})} className='cursor-pointer'/>
+                                    <span className="trash" onClick={() => dispatch({index})}>
+    	                            <span></span>
+    	                            <i></i>
+                                    </span>
                                 </td>
                             </tr>
                         ))
