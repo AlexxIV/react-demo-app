@@ -1,8 +1,8 @@
 import React, {Component}           from 'react';
 import {Redirect, Route, Switch}    from "react-router-dom";
 
-import Login                        from "./components/user/Login";
-import Register                     from "./components/user/Register";
+import {Login}                       from "./components/user/Login";
+import {Register}                     from "./components/user/Register";
 
 import {Header}                     from "./components/common/Header";
 import {Footer}                     from "./components/common/Footer";
